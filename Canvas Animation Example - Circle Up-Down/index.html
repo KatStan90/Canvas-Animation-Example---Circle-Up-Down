@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canvas Animation Example - Circle Up-Down</title>
+
+<style>
+  #my-canvas {
+    border: #cacaca 1px solid;
+  }
+</style>
+
+</head>
+
+<body>
+   <canvas id="my-canvas" width="400" height="300">
+     Your browser does not support canvas element.
+   </canvas>
+
+<script>
+
+window.onload = draw;
+
+let circleRadius = 60;
+let translateY = 0;
+let speed = 4;
+let direction = +1;
+
+function draw() {
+  let myCanvas = document.getElementById("my-canvas");
+
+  if(myCanvas.getContext) {
+    let ctx = myCanvas.getContext('2d');
+    update(ctx);
+  } else {
+    alert("Canvas is not supported.")
+  }
+}
+
+function update(ctx) {
+  ctx.clearRect(0, 0, 400, 300);
+
+  ctx.save();
+  ctx.translate(0, translateY);
+
+  ctx.beginPath();
+  ctx.fillStyle = '#4F95FF';
+  ctx.arc(200, 60, 60, 0, 2 * Math.PI);
+  ctx.fill();
+
+  ctx.restore();
+
+  if (translateY > ctx.canvas.height - (circleRadius *2)) {
+    direction = -1
+  } else if (translateY < 0) {
+    direction = 1;
+  }
+
+translateY += direction * speed;
+
+requestId = requestAnimationFrame(function() {
+  update(ctx);
+});
+
+}
+
+
+
+
+
+</script>
+
+</body>
+</html>
